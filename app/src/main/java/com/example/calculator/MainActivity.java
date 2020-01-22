@@ -69,8 +69,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myClickHandler(View view) {
+        switch(view.getId()){
+            case R.id.button0:
+                operation.setText(operation.getText() + "0");
+                break;
+            case R.id.button1:
+                operation.setText(operation.getText() + "1");
+                break;
+            case R.id.button2:
+                operation.setText(operation.getText() + "2");
+                break;
+            case R.id.button3:
+                operation.setText(operation.getText() + "3");
+                break;
+            case R.id.button4:
+                operation.setText(operation.getText() + "4");
+                break;
+            case R.id.button5:
+                operation.setText(operation.getText() + "5");
+                break;
+            case R.id.button6:
+                operation.setText(operation.getText() + "6");
+                break;
+            case R.id.button7:
+                operation.setText(operation.getText() + "7");
+                break;
+            case R.id.button8:
+                operation.setText(operation.getText() + "8");
+                break;
+            case R.id.button9:
+                operation.setText(operation.getText() + "9");
+                break;
+            case R.id.buttonAdd:
 
-        operation.setText("Click");
+                operation.setText(operation.getText() + "+");
+                break;
+            case R.id.buttonMinus:
+                operation.setText(operation.getText() + "-");
+                break;
+            case R.id.buttonMultiply:
+                operation.setText(operation.getText() + "*");
+                break;
+            case R.id.buttonDivide:
+                operation.setText(operation.getText() + "/");
+                break;
+            case R.id.buttonEqual:
+                result.setText("1");
+                String input = String.valueOf(operation.getText());
+                result.setText("2");
+                String[] divider = input.split("+");
+                /*result.setText("3");
+                operation.setText(input_split[0]);*/
+                //operation.setText(operation.getText() + "=");
+                break;
+        }
+
 
     }
 }

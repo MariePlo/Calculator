@@ -31,14 +31,12 @@
                 <EditText
                     android:id="@+id/operation"
                     android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:text="test du commit aaaa" />
+                    android:layout_height="80dp" />
 
                 <EditText
                     android:id="@+id/result"
                     android:layout_width="160dp"
-                    android:layout_height="80dp"
-                    android:text="TextView" />
+                    android:layout_height="80dp" />
 
             </LinearLayout>
 
@@ -85,6 +83,7 @@
                             android:id="@+id/buttonMultiply"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
+                            android:onClick="myClickHandler"
                             android:text="*" />
                     </LinearLayout>
 
@@ -119,6 +118,7 @@
                             android:id="@+id/buttonMinus"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
+                            android:onClick="myClickHandler"
                             android:text="-" />
                     </LinearLayout>
 
@@ -152,6 +152,7 @@
                             android:id="@+id/buttonAdd"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
+                            android:onClick="myClickHandler"
                             android:text="+" />
 
                     </LinearLayout>
@@ -173,6 +174,7 @@
                             android:id="@+id/buttonDivide"
                             android:layout_width="160dp"
                             android:layout_height="80dp"
+                            android:onClick="myClickHandler"
                             android:text="/" />
 
                     </LinearLayout>
@@ -182,6 +184,7 @@
                     android:id="@+id/buttonEqual"
                     android:layout_width="wrap_content"
                     android:layout_height="320dp"
+                    android:onClick="myClickHandler"
                     android:text="=" />
             </LinearLayout>
 
