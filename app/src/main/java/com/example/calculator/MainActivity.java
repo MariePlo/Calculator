@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText operation;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myClickHandler(View view) {
+        ArrayList<String> calculation = new ArrayList<>();
         switch(view.getId()){
             case R.id.button0:
                 operation.setText(operation.getText() + "0");
@@ -101,26 +104,66 @@ public class MainActivity extends AppCompatActivity {
                 operation.setText(operation.getText() + "9");
                 break;
             case R.id.buttonAdd:
-
+                calculation.add("add");
                 operation.setText(operation.getText() + "+");
                 break;
             case R.id.buttonMinus:
+                calculation.add("minus");
                 operation.setText(operation.getText() + "-");
                 break;
             case R.id.buttonMultiply:
+                calculation.add("multiply");
                 operation.setText(operation.getText() + "*");
                 break;
             case R.id.buttonDivide:
+                calculation.add("divide");
                 operation.setText(operation.getText() + "/");
                 break;
             case R.id.buttonEqual:
                 result.setText("1");
                 String input = String.valueOf(operation.getText());
+                result.setText("3");
+                String[] input_split = input.split("[\\+\\*/-]");
                 result.setText("2");
-                String[] divider = input.split("+");
-                /*result.setText("3");
-                operation.setText(input_split[0]);*/
-                //operation.setText(operation.getText() + "=");
+                double resultat=0;
+                for(int i=0; i<input_split.length-1; i++)
+                {
+                        if (calculation.get(i) == "add") {
+                            if(i==0) {
+                                resultat = Double.parseDouble(input_split[i])+ Double.parseDouble(input_split[i + 1]);
+                            }
+                            else{
+                                resultat+=Double.parseDouble(input_split[i+1]);
+                            }
+                        }
+                        if (calculation.get(i) == "minus") {
+                            if(i==0) {
+                                resultat = Double.parseDouble(input_split[i]) - Double.parseDouble(input_split[i + 1]);
+                            }
+                            else{
+                                resultat-=Double.parseDouble(input_split[i+1]);
+                            }
+                        }
+                        if (calculation.get(i) == "multiply") {
+                            if(i==0) {
+                                resultat = Double.parseDouble(input_split[i]) * Double.parseDouble(input_split[i + 1]);
+                            }
+                            else{
+                                resultat*=Double.parseDouble(input_split[i+1]);
+                            }
+                        }
+                        if (calculation.get(i) == "divide") {
+                            if(i==0) {
+                                resultat = Double.parseDouble(input_split[i]) / Double.parseDouble(input_split[i + 1]);
+                            }
+                            else{
+                                resultat/=Double.parseDouble(input_split[i+1]);
+                            }
+                        }
+                }
+                operation.setText(operation.getText() + "=");
+                String res = String.valueOf(resultat);
+                result.setText(res);
                 break;
         }
 
