@@ -11,13 +11,13 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
-        android:id="@+id/result"
+        android:id="@+id/operation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="test du commit aaaa" />
 
     <TextView
-        android:id="@+id/operation"
+        android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
