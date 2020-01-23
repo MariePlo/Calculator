@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myClickHandler(View view) {
-        ArrayList<String> calculation = new ArrayList<>();
+        //ArrayList<String> calculation = new ArrayList<>();
+        String calculation = null;
         switch(view.getId()){
             case R.id.button0:
                 operation.setText(operation.getText() + "0");
@@ -104,29 +105,47 @@ public class MainActivity extends AppCompatActivity {
                 operation.setText(operation.getText() + "9");
                 break;
             case R.id.buttonAdd:
-                calculation.add("add");
+                //calculation.add("add");
+                calculation="add";
                 operation.setText(operation.getText() + "+");
                 break;
             case R.id.buttonMinus:
-                calculation.add("minus");
+                //calculation.add("minus");
+                calculation="minus";
                 operation.setText(operation.getText() + "-");
                 break;
             case R.id.buttonMultiply:
-                calculation.add("multiply");
+                //calculation.add("multiply");
+                calculation="multiply";
                 operation.setText(operation.getText() + "*");
                 break;
             case R.id.buttonDivide:
-                calculation.add("divide");
+                //calculation.add("divide");
+                calculation="divide";
                 operation.setText(operation.getText() + "/");
                 break;
             case R.id.buttonEqual:
-                result.setText("1");
                 String input = String.valueOf(operation.getText());
-                result.setText("3");
                 String[] input_split = input.split("[\\+\\*/-]");
-                result.setText("2");
                 double resultat=0;
-                for(int i=0; i<input_split.length-1; i++)
+                if(calculation=="add")
+                {
+                    resultat=Double.parseDouble(input_split[0])+Double.parseDouble(input_split[1]);
+                }
+                if(calculation=="minus")
+                {
+                    resultat=Double.parseDouble(input_split[0])-Double.parseDouble(input_split[1]);
+                }
+                if(calculation=="multiply")
+                {
+                    resultat=Double.parseDouble(input_split[0])*Double.parseDouble(input_split[1]);
+                }
+                if(calculation=="divide")
+                {
+                    resultat=Double.parseDouble(input_split[0])/Double.parseDouble(input_split[1]);
+                }
+
+                /*for(int i=0; i<input_split.length-1; i++)
                 {
                         if (calculation.get(i) == "add") {
                             if(i==0) {
@@ -160,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                                 resultat/=Double.parseDouble(input_split[i+1]);
                             }
                         }
-                }
+                }*/
                 operation.setText(operation.getText() + "=");
                 String res = String.valueOf(resultat);
                 result.setText(res);
