@@ -126,11 +126,14 @@ public class MainActivity extends AppCompatActivity {
                 calculation="divide";
                 operation.setText(operation.getText() + "/");
                 break;
+            case R.id.buttonClear:
+                operation.getText().clear();
+                result.getText().clear();
+                break;
             case R.id.buttonEqual:
                 String input = String.valueOf(operation.getText());
                 String[] input_split = input.split("[\\+\\*/-]");
                 double resultat=0;
-                String textRes;
                 double Res1 = Double.parseDouble(input_split[0]);
                 double Res2 = Double.parseDouble(input_split[1]);
 
@@ -191,10 +194,10 @@ public class MainActivity extends AppCompatActivity {
                 operation.setText(operation.getText() + "=");
                 String preRes = String.valueOf(Double.parseDouble(input_split[0]));
                 String TestRes = String.valueOf(resultat);
-                //String res = "12";
                 result.setText(TestRes);
 
                 break;
+
         }
 
 
