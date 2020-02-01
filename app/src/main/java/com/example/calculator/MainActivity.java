@@ -1,5 +1,6 @@
 package com.example.calculator;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -8,6 +9,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     Button clear;
     final String ADD = "add";
     String calculation = null;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpViews();
 
+        handler = new Handler();
     }
 
     public void setUpViews(){
@@ -73,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myClickHandler(View view) {
-        //ArrayList<String> calculation = new ArrayList<>();
-
         switch(view.getId()){
             case R.id.button0:
                 operation.setText(operation.getText() + "0");
@@ -107,100 +110,126 @@ public class MainActivity extends AppCompatActivity {
                 operation.setText(operation.getText() + "9");
                 break;
             case R.id.buttonAdd:
-                //calculation.add("add");
-                calculation="add";
-                operation.setText(operation.getText() + "+");
+                operation.setText(operation.getText() + " + ");
                 break;
             case R.id.buttonMinus:
-                //calculation.add("minus");
-                calculation="minus";
-                operation.setText(operation.getText() + "-");
+                operation.setText(operation.getText() + " - ");
                 break;
             case R.id.buttonMultiply:
-                //calculation.add("multiply");
-                calculation="multiply";
-                operation.setText(operation.getText() + "*");
+                operation.setText(operation.getText() + " * ");
                 break;
             case R.id.buttonDivide:
-                //calculation.add("divide");
-                calculation="divide";
-                operation.setText(operation.getText() + "/");
+                operation.setText(operation.getText() + " / ");
                 break;
             case R.id.buttonClear:
                 operation.getText().clear();
                 result.getText().clear();
                 break;
             case R.id.buttonEqual:
-                String input = String.valueOf(operation.getText());
-                String[] input_split = input.split("[\\+\\*/-]");
-                double resultat=0;
-                double Res1 = Double.parseDouble(input_split[0]);
-                double Res2 = Double.parseDouble(input_split[1]);
-
-                if(calculation == "add")
-                {
-                    resultat=Res1+Res2;
-                    String res = String.valueOf(resultat);
-
-                }
-                if(calculation=="minus")
-                {
-                    resultat=Double.parseDouble(input_split[0])-Double.parseDouble(input_split[1]);
-                }
-                if(calculation=="multiply")
-                {
-                    resultat=Double.parseDouble(input_split[0])*Double.parseDouble(input_split[1]);
-                }
-                if(calculation=="divide")
-                {
-                    resultat=Double.parseDouble(input_split[0])/Double.parseDouble(input_split[1]);
-                }
-
-                /*for(int i=0; i<input_split.length-1; i++)
-                {
-                        if (calculation.get(i) == "add") {
-                            if(i==0) {
-                                resultat = Double.parseDouble(input_split[i])+ Double.parseDouble(input_split[i + 1]);
-                            }
-                            else{
-                                resultat+=Double.parseDouble(input_split[i+1]);
-                            }
-                        }
-                        if (calculation.get(i) == "minus") {
-                            if(i==0) {
-                                resultat = Double.parseDouble(input_split[i]) - Double.parseDouble(input_split[i + 1]);
-                            }
-                            else{
-                                resultat-=Double.parseDouble(input_split[i+1]);
-                            }
-                        }
-                        if (calculation.get(i) == "multiply") {
-                            if(i==0) {
-                                resultat = Double.parseDouble(input_split[i]) * Double.parseDouble(input_split[i + 1]);
-                            }
-                            else{
-                                resultat*=Double.parseDouble(input_split[i+1]);
-                            }
-                        }
-                        if (calculation.get(i) == "divide") {
-                            if(i==0) {
-                                resultat = Double.parseDouble(input_split[i]) / Double.parseDouble(input_split[i + 1]);
-                            }
-                            else{
-                                resultat/=Double.parseDouble(input_split[i+1]);
-                            }
-                        }
-                }*/
-                operation.setText(operation.getText() + "=");
-                String preRes = String.valueOf(Double.parseDouble(input_split[0]));
-                String TestRes = String.valueOf(resultat);
-                result.setText(TestRes);
-
+                //startProgress(view);
+                DownloadFilesTask dft = new DownloadFilesTask();
+                dft.execute();
                 break;
+        }
+    }
 
+    /*public void startProgress(View view) {
+        Runnable runnable = new Runnable(){
+            @Override
+            public void run() {
+
+                String input = String.valueOf(operation.getText());
+                String[] input_split = input.split(" ");
+                double resultat=0;
+
+                for(int i=0; i<input_split.length-2; i++)
+                {
+                    Double value1=Double.parseDouble(input_split[i]);
+                    String calculation=input_split[i+1];
+                    Double value2=Double.parseDouble(input_split[i+2]);
+
+                    if(calculation.equals("+"))
+                    {
+                        resultat=value1+value2;
+                    }
+                    if(calculation.equals("-"))
+                    {
+                        resultat=value1-value2;
+                    }
+                    if(calculation.equals("*"))
+                    {
+                        resultat=value1*value2;
+                    }
+                    if(calculation.equals("/"))
+                    {
+                        resultat=value1/value2;
+                    }
+                }
+
+                final double res = resultat;
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            operation.setText(operation.getText() + " =");
+                            String TestRes = String.valueOf(res);
+                            result.setText(TestRes);
+                        }
+                    });
+                }
+            };
+        new Thread(runnable).start();
+    }*/
+
+    private class DownloadFilesTask extends AsyncTask<Integer,Integer,Integer> {
+
+        protected Integer doInBackground(Integer... params) {
+            String input = String.valueOf(operation.getText());
+            String[] input_split = input.split(" ");
+            double resultat=0;
+
+            for(int i=0; i<input_split.length-2; i++)
+            {
+                Double value1=Double.parseDouble(input_split[i]);
+                String calculation=input_split[i+1];
+                Double value2=Double.parseDouble(input_split[i+2]);
+
+                if(calculation.equals("+"))
+                {
+                    resultat=value1+value2;
+                }
+                if(calculation.equals("-"))
+                {
+                    resultat=value1-value2;
+                }
+                if(calculation.equals("*"))
+                {
+                    resultat=value1*value2;
+                }
+                if(calculation.equals("/"))
+                {
+                    resultat=value1/value2;
+                }
+            }
+
+            final double res = resultat;
+
+            operation.setText(operation.getText() + " =");
+            String TestRes = String.valueOf(res);
+            result.setText(TestRes);
+            Integer ress = (int)res;
+            return ress;
         }
 
+        protected void onProgressUpdate(Integer... prog) {
+            Log.i("onProgressUpdate", "ok !");
+        }
+
+        protected void onPostExecute(Integer... result) {
+            Log.i("onPostExecute", "ok !");
+        }
 
     }
+
 }
 
